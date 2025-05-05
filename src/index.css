@@ -1,0 +1,16 @@
+.links{
+    text-decoration: none;
+    color: rgba(0,0,0,0.65);
+}
+
+.inputField{
+    border:none
+}
+
+td:hover,.inputField:hover[read-only]{
+    background-color: #fff;
+}
+
+/* .inputField:not:[read-only]{
+    background-color: #fff;
+} */
