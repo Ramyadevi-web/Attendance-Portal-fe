@@ -4,10 +4,13 @@ import AxiosService from '../utils/AxiosService';
 import ApiRoutes from '../utils/ApiRoutes';
 import toast from 'react-hot-toast';
 import TopBar from './TopBar';
+import { useNavigate } from 'react-router-dom';
 
  function LeaveApplication() {
 
     const id = sessionStorage.getItem('id')
+    const navigate = useNavigate()
+
 
   const [form, setForm] = useState({
     leaveType: '',
@@ -23,6 +26,7 @@ import TopBar from './TopBar';
   const handleSubmit = async (e) => {
     e.preventDefault();
     setForm({...form,status:"Pending"})
+    navigate(`/profile/${id}`)
    
     try {
         const res = await AxiosService.post(ApiRoutes.APPLYLEAVE.path.replace(':id',id),form)
@@ -47,7 +51,6 @@ import TopBar from './TopBar';
               <option value="">Select</option>
               <option value="Sick">Sick Leave</option>
               <option value="Casual">Casual Leave</option>
-              <option value="Earned">Earned Leave</option>
             </Form.Select>
           </Form.Group>
 
