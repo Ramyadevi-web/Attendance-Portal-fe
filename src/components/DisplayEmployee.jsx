@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import AxiosService from "../utils/AxiosService";
 import ApiRoutes from "../utils/ApiRoutes";
 import { Table, Container } from "react-bootstrap";
-import TopBar from './TopBar'
+import TopBar from './'
 
 const DisplayEmployee = () => {
 

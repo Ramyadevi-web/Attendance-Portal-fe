@@ -9,7 +9,7 @@ const ApiRoutes = {
     },
     DASHBOARD:{
         path:'user/dashboard',
-        authenticate:true
+        authenticate:false
     },
     FORGOTPASSWORD:{
         path:'user/forgotPassword',
