@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const AxiosService = axios.create({
-    baseURL:"http://localhost:8000/" || "https://attendanceportalcapstone.onrender.com",
+    baseURL: "https://attendanceportalcapstone.onrender.com",
         headers:{
             "Content-Type":"application/json"
         }
