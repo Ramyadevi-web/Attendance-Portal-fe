@@ -4,12 +4,20 @@ import TopBar from "./TopBar";
 import ApiRoutes from "../utils/ApiRoutes";
 import AxiosService from '../utils/AxiosService';
 
-const LeaveManagementAdmin = () => {
+const LeaveManagement = () => {
 
   const [leaveRequest,setLeaveRequest] = useState([])
 
+  const role = sessionStorage.getItem('role')
+
   const fetchRequest = async () => {
-    const res = await AxiosService.get(ApiRoutes.LEAVEMANAGEMENT.path)
+    let res='' ;
+    if(role === 'Manager'){
+       res = await AxiosService.get(ApiRoutes.LEAVEMANAGEMENT.path)
+    }else if(role === 'Admin'){
+       res = await AxiosService.get(ApiRoutes.DISPLAYHIGHERLEAVEREQUEST.path)
+    }
+   
     const data = res.data.filteredData
     console.log('data',data)
     setLeaveRequest(data)
@@ -119,4 +127,4 @@ const LeaveManagementAdmin = () => {
     </>
 };
 
-export default LeaveManagementAdmin;
+export default LeaveManagement;

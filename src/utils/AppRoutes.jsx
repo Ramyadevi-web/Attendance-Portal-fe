@@ -1,6 +1,5 @@
 import Login from '../components/Login'
 import Signup from '../components/Signup'
-import Dashboard from '../components/Dashboard'
 import Profile from '../components/Profile'
 import ForgotPassword from '../components/ForgotPassword'
 import UpdatePassword from '../components/UpdatePassword'
@@ -11,7 +10,7 @@ import DisplayStaff from '../components/DisplayStaff'
 import ViewAttendance from '../components/ViewAttendance'
 import LeaveApplication from '../components/LeaveApplication'
 import LeaveStatus from '../components/LeaveStatus'
-import LeaveManagementAdmin from '../components/LeaveManagement'
+import LeaveManagement from '../components/LeaveManagement'
 import DisplayEmployee from '../components/DisplayEmployee'
 import DisplayHigher from '../components/DisplayHigher'
 
@@ -24,12 +23,6 @@ const AppRoutes = [
     {
         path:'/signup',
         element:<Signup/>
-    },
-    {
-        path:'/dashboard',
-        element:<AdminGuard>
-                  <Dashboard/>
-                </AdminGuard>
     },
     {
         path:'/profile/:id',
@@ -69,17 +62,23 @@ const AppRoutes = [
     },
     {
         path:'/leave-management',
-        element: <LeaveManagementAdmin/>
+        element: <LeaveManagement/>
                 
     },
     {
         path:'/display-all-employee',
-        element: <DisplayEmployee/>
-                
+        element: <AdminGuard>
+                 <DisplayEmployee/>
+                 </AdminGuard>   
     },
     {
         path:'/display-higher-authority',
         element: <DisplayHigher/>
+                
+    },
+    {
+        path:'/display-leave-request',
+        element: <LeaveManagement/>
                 
     },
     {
