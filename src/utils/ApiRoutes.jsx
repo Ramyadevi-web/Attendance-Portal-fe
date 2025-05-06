@@ -54,6 +54,14 @@ const ApiRoutes = {
     ACTION: {
         path: '/manager/leave-request-action/:id',
         authenticate:false
+    },
+    DISPLAYEMPLOYEE: {
+        path: 'admin/display-employee',
+        authenticate: false
+    },
+    DISPLAYHIGHER: {
+        path: 'manager/display-staff',
+        authenticate: false
     }
 }
 

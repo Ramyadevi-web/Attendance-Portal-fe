@@ -5,10 +5,10 @@ import AxiosService from '../utils/AxiosService';
 import ApiRoutes from '../utils/ApiRoutes';
 import TopBar from './TopBar';
 
-const DisplayStaff =  () => {
+const DisplayHigher =  () => {
   const [attendance, setAttendance] = useState({});
   const [date, setDate] = useState('');
-  const [staffs,setStaff] = useState([]);
+  const [highers,setHigher] = useState([]);
 
   const navigate = useNavigate()
 
@@ -20,8 +20,8 @@ const DisplayStaff =  () => {
     const res = await AxiosService.get(ApiRoutes.DISPLAYSTAFF.path)
     const users = res.data.users;
 
-    const staffList = users.filter((user)=> user.role === 'Staff')
-    setStaff(staffList)         
+    const higherList = users.filter((user)=> user.role !== 'Staff')
+    setHigher(higherList)         
     }
 
    useEffect(()=>{
@@ -40,19 +40,19 @@ const DisplayStaff =  () => {
             return;
           }
 
-        for (const staff of staffs) {
-          const status = attendance[staff._id];
+        for (const higher of highers) {
+          const status = attendance[higher._id];
     
           if (!status) {
-            alert(`Attendance not marked for ${staff.firstName}`);
+            alert(`Attendance not marked for ${higher.firstName}`);
             return;
           }
         }
-        for (const staff of staffs) {
-          const status = attendance[staff._id];
+        for (const higher of highers) {
+          const status = attendance[higher._id];
 
           const data = JSON.stringify({
-                  id: staff._id,
+                  id: higher._id,
                   status,
                   date,
                 })
@@ -104,20 +104,20 @@ const DisplayStaff =  () => {
           </tr>
         </thead>
         <tbody>
-          {staffs.length > 0 ? staffs.map((staff, index) =>{
-            const staffName = `${staff.firstName}  ${staff.lastName}`
+          {highers.length > 0 ? highers.map((higher, index) =>{
+            const higherName = `${higher.firstName}  ${higher.lastName}`
             return (
-            <tr key={`${staff._id}`}>
+            <tr key={`${higher._id}`}>
               <td>{index + 1}</td>
-              <td> {staffName} </td>
+              <td> {higherName} </td>
               <td>
   <Form.Check 
     type="radio"
-    name={`attendance-${staff._id}`}
-    id={`present-${staff._id}`}
-    onChange={() => handleAttendanceChange(staff._id, 'Present')}
+    name={`attendance-${higher._id}`}
+    id={`present-${higher._id}`}
+    onChange={() => handleAttendanceChange(higher._id, 'Present')}
  
-    checked={attendance[staff._id] === 'Present'}
+    checked={attendance[higher._id] === 'Present'}
     inline
     label="✔"
   />
@@ -125,11 +125,11 @@ const DisplayStaff =  () => {
 <td>
   <Form.Check 
     type="radio"
-    name={`attendance-${staff._id}`}
-    id={`absent-${staff._id}`}
-    onChange={() => handleAttendanceChange(staff._id, 'Absent')}
+    name={`attendance-${higher._id}`}
+    id={`absent-${higher._id}`}
+    onChange={() => handleAttendanceChange(higher._id, 'Absent')}
 
-    checked={attendance[staff._id] === 'Absent'}
+    checked={attendance[higher._id] === 'Absent'}
     inline
     label="✖"
   />
@@ -150,4 +150,4 @@ const DisplayStaff =  () => {
     </>
 };
 
-export default DisplayStaff
+export default DisplayHigher

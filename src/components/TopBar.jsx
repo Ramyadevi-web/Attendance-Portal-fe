@@ -21,7 +21,8 @@ function TopBar() {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
 
-          {roles.includes(role) ? <><Nav.Link><Link to ='/display-staff' className='links'>Dashboard</Link></Nav.Link></> : <></>}
+          {roles.includes(role) ? <><Nav.Link> <Link to = {role === "Manager"  ? '/display-staff' :  '/display-higher-authority'  } className='links'>Attendance</Link></Nav.Link></> : <></>}
+          {role === 'Admin' ? <><Nav.Link> <Link to = '/display-all-employee' className='links'>Dashboard</Link></Nav.Link></> : <></>}
 
           {role === 'Staff' ? <><Nav.Link><Link to ='/leave-application' className='links'>Apply for leave</Link> </Nav.Link></>:<></>}
           

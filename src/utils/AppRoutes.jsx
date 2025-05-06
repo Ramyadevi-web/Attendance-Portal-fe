@@ -12,6 +12,8 @@ import ViewAttendance from '../components/ViewAttendance'
 import LeaveApplication from '../components/LeaveApplication'
 import LeaveStatus from '../components/LeaveStatus'
 import LeaveManagementAdmin from '../components/LeaveManagement'
+import DisplayEmployee from '../components/DisplayEmployee'
+import DisplayHigher from '../components/DisplayHigher'
 
 
 const AppRoutes = [
@@ -68,6 +70,16 @@ const AppRoutes = [
     {
         path:'/leave-management',
         element: <LeaveManagementAdmin/>
+                
+    },
+    {
+        path:'/display-all-employee',
+        element: <DisplayEmployee/>
+                
+    },
+    {
+        path:'/display-higher-authority',
+        element: <DisplayHigher/>
                 
     },
     {

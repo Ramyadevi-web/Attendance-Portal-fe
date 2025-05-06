@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Form, Row, Col, Card } from "react-bootstrap";
+import { Table, Button, Badge} from "react-bootstrap";
 import TopBar from "./TopBar";
 import ApiRoutes from "../utils/ApiRoutes";
 import AxiosService from '../utils/AxiosService';
-import { use } from "react";
 
 const LeaveManagementAdmin = () => {
 
@@ -36,7 +35,15 @@ const LeaveManagementAdmin = () => {
                                                         leaveIndex:leaveIndex,
                                                             status:updatedLeave.status
                                                         })
-    console.log('up',updatedData)  
+ 
+  }
+
+  const getStatusColor = (status) =>{
+    switch(status){
+      case 'Pending': return 'secondary'
+      case 'Approved': return 'success'
+      case 'Rejected': return 'danger'
+    }
   }
 
 
@@ -98,7 +105,7 @@ const LeaveManagementAdmin = () => {
             <td>{request.fromDate.split("T")[0]}</td>
             <td>{request.toDate.split("T")[0]}</td>
             <td>{request.reason}</td>
-            <td><span className="badge bg-warning text-dark">{request.status}</span></td>
+            <td> <Badge bg={getStatusColor(request.status)}>{request.status}</Badge></td>
             <td>
               <Button variant="success" size="sm" value = 'Approve' className="me-2" onClick={(e)=>handleAction(e,user._id,index,subIndex)}>Approve</Button>
               <Button variant="danger" size="sm"  value = 'Reject' onClick={(e)=>handleAction(e,user._id,index,subIndex)}>Reject</Button>
