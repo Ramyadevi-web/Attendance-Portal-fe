@@ -66,6 +66,18 @@ const ApiRoutes = {
     DISPLAYHIGHERLEAVEREQUEST: {
         path: 'admin/leave-request-action',
         authenticate: false
+    },
+    DISPLAYALLEMPLOYEE:{
+        path: 'user',
+        authenticate:false
+    },
+    DELETEEMPLOYEE:{
+        path:"user/deleteUser/:id",
+        authenticate:false
+    },
+    EDITEMPLOYEE:{
+        path:'user/editUser/:id',
+        authenticate:false
     }
 }
 

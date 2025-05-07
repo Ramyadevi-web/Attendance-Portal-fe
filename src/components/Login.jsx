@@ -30,23 +30,18 @@ function Login() {
         let res = await AxiosService.post(ApiRoutes.LOGIN.path,data)
   
         if(res.status == 200){
-          
-            sessionStorage.setItem('token',res.data.token)
-            sessionStorage.setItem('role',res.data.role)
-            sessionStorage.setItem('id',res.data.id)
-            toast.success(res.data.message)   
-            // navigate('/forgotPassword')
 
-              // if(res.data.role === 'Admin' || res.data.role === 'Manager'){
-                // navigate('/dashboard')
-              // }else{
+          sessionStorage.setItem('token',res.data.token)
+          sessionStorage.setItem('role',res.data.role)
+          sessionStorage.setItem('id',res.data.id)
+          
+            toast.success(res.data.message)   
+          
                   navigate(`/profile/${res.data.id}`)
-              // }
     
             
         }
     } catch (error) {
-      console.log(error)
         toast.error( error.response.data.message || error.message)
     }
    }

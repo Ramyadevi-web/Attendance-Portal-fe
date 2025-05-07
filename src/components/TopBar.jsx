@@ -22,7 +22,7 @@ function TopBar() {
         <Nav className="me-auto">
 
           {roles.includes(role) ? <><Nav.Link> <Link to = {role === "Manager"  ? '/display-staff' :  '/display-higher-authority'  } className='links'>Attendance</Link></Nav.Link></> : <></>}
-          {role === 'Admin' ? <><Nav.Link> <Link to = '/display-all-employee' className='links'>Dashboard</Link></Nav.Link></> : <></>}
+          {role === 'Admin' ? <><Nav.Link> <Link to = '/display-all-employee' className='links'>Dashboard</Link></Nav.Link><><Nav.Link> <Link to = '/manage-user' className='links'>Manage User</Link></Nav.Link></></> : <></>}
 
           {(role === 'Staff'|| role === 'Manager') ? <><Nav.Link><Link to ='/leave-application' className='links'>Apply for leave</Link> </Nav.Link>
                                                        <Nav.Link><Link to ='/leave-status' className='links'>Leave Application Status </Link></Nav.Link>

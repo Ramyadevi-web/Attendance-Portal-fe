@@ -4,6 +4,7 @@ import AxiosService from '../utils/AxiosService';
 import ApiRoutes from '../utils/ApiRoutes';
 import TopBar from './TopBar';
 import { MdModeEditOutline } from "react-icons/md";
+import toast from 'react-hot-toast';
 
 const viewAttendance = () =>{
 
@@ -62,12 +63,17 @@ const viewAttendance = () =>{
 
       const recordToUpdate = updatedAttendance[index]
 
-      const res = await AxiosService.put(ApiRoutes.MANAGEATTENDANCE.path,{
+      try {
+        const res = await AxiosService.put(ApiRoutes.MANAGEATTENDANCE.path,{
           id : recordToUpdate.id,
           fullName : recordToUpdate.fullName,
           status : recordToUpdate.status,
           date : recordToUpdate.date
        },{new:true})
+      } catch (error) {
+        toast.error(error.message)
+      }
+     
         
     } 
 

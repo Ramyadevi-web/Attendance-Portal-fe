@@ -13,6 +13,8 @@ import LeaveStatus from '../components/LeaveStatus'
 import LeaveManagement from '../components/LeaveManagement'
 import DisplayEmployee from '../components/DisplayEmployee'
 import DisplayHigher from '../components/DisplayHigher'
+import ManageUsers from '../components/ManageUser'
+import AddUser from '../components/AddUser'
 
 
 const AppRoutes = [
@@ -72,6 +74,12 @@ const AppRoutes = [
                  </AdminGuard>   
     },
     {
+        path:'/manage-user',
+        element: <AdminGuard>
+                 <ManageUsers/>
+                 </AdminGuard>   
+    },
+    {
         path:'/display-higher-authority',
         element: <DisplayHigher/>
                 
@@ -79,6 +87,11 @@ const AppRoutes = [
     {
         path:'/display-leave-request',
         element: <LeaveManagement/>
+                
+    },
+    {
+        path:'/add-user',
+        element: <AddUser/>
                 
     },
     {
