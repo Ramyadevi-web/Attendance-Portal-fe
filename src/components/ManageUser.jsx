@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Container, Row, Col, Form } from 'react-bootstrap';
-import { useNavigate ,Link} from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import AxiosService from '../utils/AxiosService.jsx';
 import ApiRoutes from '../utils/ApiRoutes.jsx';
 import toast from 'react-hot-toast'
 import TopBar from './TopBar.jsx';
+import Spinner from './Spinner'
+import Error from './Error';
 
 const ManageUsers = () => {
 
 
   let editableFlag;
-  const navigate = useNavigate()
  const [users,setUsers] = useState([]);
  const [originalUser,setOriginalUser] = useState([])
  const [selectedValue,setSelectedValue] = useState({})
@@ -127,7 +128,7 @@ const ManageUsers = () => {
   }, []);
  
 
-  return <>
+  return users ? <>
   <TopBar/>
       <Container className="mt-5">
       <Row className="mb-4">
@@ -200,7 +201,7 @@ const ManageUsers = () => {
         </tbody>
       </Table>
     </Container>
-    </>
+    </> : <Spinner/>
 
 };
 

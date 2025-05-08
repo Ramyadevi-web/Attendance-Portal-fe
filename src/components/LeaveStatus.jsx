@@ -3,23 +3,35 @@ import { Container, Card, Table, Badge } from 'react-bootstrap';
 import AxiosService from '../utils/AxiosService';
 import ApiRoutes from '../utils/ApiRoutes';
 import TopBar from './TopBar';
+import Spinner from './Spinner'
+import Error from './Error';
 
 export default function LeaveStatusStatic() {
 
   const id = sessionStorage.getItem('id')
   const [leaveDatas,setLeaveDatas] = useState([])
+   const [error,setError] = useState(null)
 
   const getStatus = async()=>{
-       const res = await AxiosService.get(ApiRoutes.LEAVESTATUS.path.replace(':id',id))
-       const data = res.data.leaveDatas
-       console.log(data)
-        setLeaveDatas(data)
+
+    try {
+      const res = await AxiosService.get(ApiRoutes.LEAVESTATUS.path.replace(':id',id))
+      const data = res.data.leaveDatas
+       setLeaveDatas(data)
+    } catch (error) {
+      setError( error.response.data.message || error.message) 
+    }
+     
   }
 
 useEffect( ()=>{
   getStatus()
 },[])
-  return <>
+
+
+  return  error ?  
+  <Error message={error} />
+   :  leaveDatas ? <>
   <TopBar/>
     <Container className="py-5">
       <Card className="p-4 shadow">
@@ -53,7 +65,7 @@ useEffect( ()=>{
         </Table>
       </Card>
     </Container>
-    </>
+    </> : <Spinner/> 
 }
 
 function getStatusColor(status) {

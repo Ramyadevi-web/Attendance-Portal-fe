@@ -4,6 +4,8 @@ import TopBar from './TopBar';
 import ApiRoutes from '../utils/ApiRoutes';
 import { useParams } from 'react-router-dom';
 import AxiosService from '../utils/AxiosService';
+import Spinner from './Spinner'
+import Error from './Error'
 
 const ProfilePage = () => {
 
@@ -12,47 +14,47 @@ const ProfilePage = () => {
   let [presentCount,setPresentCount] = useState(0)
   let [absentCount,setAbsentCount] = useState(0)
   let [totalDays,setTotalDays] = useState(0)
+  let [error,setError] = useState(null)
 
   const getProfileData = async ()=>{
-    const res = await AxiosService.get(`${ApiRoutes.PROFILE.path.replace(':id', id)}`,{
-      allowAbsoluteUrls:ApiRoutes.PROFILE.authenticate
-    })
-      
-       let attendance = res.data.user.attendance
-       let data = res.data.user
-
-       for(let item of attendance){
-           if(item.status === 'Present'){
-            presentCount++
-            setPresentCount(presentCount)
-           }
-
-           if(item.status === 'Absent'){
-            absentCount++
-            setAbsentCount(absentCount)
-           }
-       }
-       setTotalDays(presentCount + absentCount)
-
-       setUser(data)
-   
+  
+    try {
+      const res = await AxiosService.get(`${ApiRoutes.PROFILE.path.replace(':id', id)}`,{
+        allowAbsoluteUrls:ApiRoutes.PROFILE.authenticate
+      })
+        
+         let attendance = res.data.user.attendance
+         let data = res.data.user
+  
+         for(let item of attendance){
+             if(item.status === 'Present'){
+              presentCount++
+             }
+  
+             if(item.status === 'Absent'){
+              absentCount++
+             }
+         }
+         setAbsentCount(absentCount)
+         setPresentCount(presentCount)
+         setTotalDays(presentCount + absentCount)
+  
+         setUser(data)
+    } catch (error) {
+      const errMsg = error?.response?.data?.error || error?.message || 'An unexpected error occurred'
+      setError(errMsg)
+      console.log(errMsg)
+    }
+ 
   }
-
+  console.log('err',error)
   useEffect(()=>{
     getProfileData()
   },[id])
-  
 
-
-  const statusBadge = (status) => {
-    switch (status) {
-      case "Present": return <Badge bg="success">Present</Badge>;
-      case "Absent": return <Badge bg="danger">Absent</Badge>;
-      default: return <Badge bg="secondary">{status}</Badge>;
-    }
-  };
-
-  return user?<> <TopBar/>
+  return   error != null  ?
+    <Error message={error} />
+  : user ? <> <TopBar/>
     <Container className="py-5">
       {/* Profile Header */}
       <Card className="mb-4 shadow-sm">
@@ -105,7 +107,7 @@ const ProfilePage = () => {
         </Card.Body>
       </Card>
     </Container>
-    </>:<div>Loading....</div>
-};
+    </>:<Spinner/>
+}
 
 export default ProfilePage;

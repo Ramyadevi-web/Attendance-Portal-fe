@@ -3,21 +3,33 @@ import AxiosService from "../utils/AxiosService";
 import ApiRoutes from "../utils/ApiRoutes";
 import { Table, Container } from "react-bootstrap";
 import TopBar from './TopBar'
+import Spinner from './Spinner'
+import Error from './Error';
 
 const DisplayEmployee = () => {
 
     const [employee,setEmployee] = useState([])
+    const [error,setError] = useState(null)
   
     const fetchEmployee = async ()=>{
+
+      try {
         const res = await AxiosService.get(ApiRoutes.DISPLAYEMPLOYEE.path)
         const employees = res.data.employeeData;
-        setEmployee(employees)         
-        }
+          setEmployee(employees)       
+      } catch (error) {
+          setError(error.message || 'Something went wrong....')
+      }  
+  }
     
        useEffect(()=>{
             fetchEmployee()
         },[])
-  return <>
+
+
+  return  error ?  
+  <Error message={error} />
+   :  employee ? <>
   <TopBar/>
     <Container className="mt-4">
       <h2 className="mb-4">Employee Attendance Summary</h2>
@@ -40,7 +52,7 @@ const DisplayEmployee = () => {
         </tbody>
       </Table>
     </Container>
-    </>
+    </> : <Spinner/> 
 };
 
 export default DisplayEmployee;

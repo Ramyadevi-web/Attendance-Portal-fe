@@ -30,7 +30,7 @@ import { useNavigate } from 'react-router-dom';
    
     try {
         const res = await AxiosService.post(ApiRoutes.APPLYLEAVE.path.replace(':id',id),form)
-        console.log("res",res)
+
         
         toast.success(res.data.message)  
     } catch (error) {

@@ -1,30 +1,43 @@
-import React ,{useRef}from 'react'
+import React ,{useRef,useState}from 'react'
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
 import { useNavigate } from 'react-router-dom';
+import AxiosService from '../utils/AxiosService';
+import ApiRoutes from '../utils/ApiRoutes';
+import toast from 'react-hot-toast'
 
 function ForgotPassword() {
 
   const emailRef = useRef()
   const navigate = useNavigate()
 
-  const handleForgotPassword = (event)=>{
+  const handleForgotPassword = async (event)=>{
      event.preventDefault()
+     let res=""
 
       try {
         const email = emailRef.current.value;
      
         if(!email){
         alert("Enter valid email Id")
-        }else{
-            
         }
+
+         await AxiosService.post(ApiRoutes.FORGOTPASSWORD.path,{email:email})
+          .then((res)=>{
+            alert(res.data.message)
+            navigate('/login')
+          })
+          .catch((error)=>{
+            alert(error.response.data.error)
+          })
+      
         
       } catch (error) {
-        toast.error( error.response.data.message || error.message)
+
+        toast.error(error.response.data.message || error.message)
       }
   }
 

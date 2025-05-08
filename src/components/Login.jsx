@@ -47,8 +47,6 @@ function Login() {
    }
 
   return (
-
-
     <Container>
         <h1 className='d-flex justify-content-center my-5 fw-5'>Login</h1>
       <div className="d-flex justify-content-center align-items-center vh-90">
@@ -82,7 +80,7 @@ function Login() {
           Don’t have an account? <Link to="/signup">Sign up</Link>
         </p>
         <p className="mt-3 text-center small">
-          <Link to="/forgot-password">Forgot Password?</Link>
+          <Link to="/forgotpassword">Forgot Password?</Link>
         </p>
       </Card>
       </div>

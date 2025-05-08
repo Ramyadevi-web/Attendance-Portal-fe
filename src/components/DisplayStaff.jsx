@@ -4,11 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import AxiosService from '../utils/AxiosService';
 import ApiRoutes from '../utils/ApiRoutes';
 import TopBar from './TopBar';
+import Spinner from './Spinner'
+import Error from './Error';
 
 const DisplayStaff =  () => {
   const [attendance, setAttendance] = useState({});
   const [date, setDate] = useState('');
   const [staffs,setStaff] = useState([]);
+  const [error,setError] = useState(null)
 
   const navigate = useNavigate()
 
@@ -57,23 +60,21 @@ const DisplayStaff =  () => {
                   date,
                 })
 
-          const updatedAttendance = await AxiosService.post(ApiRoutes.RECORDATTENDANCE.path,data)
-          console.log(updatedAttendance) 
+         await AxiosService.post(ApiRoutes.RECORDATTENDANCE.path,data)
         
         }
-
-      
         alert("Attendance submitted successfully.");
        
       } catch (error) {
-        console.error("Submission error:", error);
-        alert("Something went wrong while submitting attendance.");
+           setError(error.message || "Something went wrong....")
       }
     };
       
    
 
-  return <>
+  return  error ?  
+  <Error message={error} />
+   :  staffs ? <>
   <TopBar/>
     <Container className="mt-4">
 
@@ -147,7 +148,7 @@ const DisplayStaff =  () => {
         <Button variant="success" onClick={(e)=>handleSubmit(e)}>Submit Attendance</Button>
       </div>
     </Container>
-    </>
+    </> : <Spinner/> 
 };
 
 export default DisplayStaff

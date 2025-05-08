@@ -3,24 +3,33 @@ import { Table, Button, Badge} from "react-bootstrap";
 import TopBar from "./TopBar";
 import ApiRoutes from "../utils/ApiRoutes";
 import AxiosService from '../utils/AxiosService';
+import Spinner from './Spinner'
+import Error from './Error';
 
 const LeaveManagement = () => {
 
   const [leaveRequest,setLeaveRequest] = useState([])
+  const [error,setError] = useState(null)
 
   const role = sessionStorage.getItem('role')
 
   const fetchRequest = async () => {
     let res='' ;
-    if(role === 'Manager'){
-       res = await AxiosService.get(ApiRoutes.LEAVEMANAGEMENT.path)
-    }else if(role === 'Admin'){
-       res = await AxiosService.get(ApiRoutes.DISPLAYHIGHERLEAVEREQUEST.path)
+
+    try {
+      if(role === 'Manager'){
+        res = await AxiosService.get(ApiRoutes.LEAVEMANAGEMENT.path)
+     }else if(role === 'Admin'){
+        res = await AxiosService.get(ApiRoutes.DISPLAYHIGHERLEAVEREQUEST.path)
+     }
+    
+     const data = res.data.filteredData
+  
+     setLeaveRequest(data)
+    } catch (error) {
+      setError( error.response.data.message || error.message) 
     }
-   
-    const data = res.data.filteredData
-    console.log('data',data)
-    setLeaveRequest(data)
+    
   }
 
   useEffect(()=>{
@@ -55,7 +64,9 @@ const LeaveManagement = () => {
   }
 
 
-  return <>
+  return  error ?  
+  <Error message={error} />
+   :  leaveRequest ? <>
   <TopBar/>
     {leaveRequest.length > 0 ? <div className="container mt-4">
       <h2 className="mb-4">Leave Management - Admin Panel</h2>
@@ -124,7 +135,7 @@ const LeaveManagement = () => {
         </tbody>
       </Table>
     </div> : <div>No Leave request found</div>}
-    </>
+    </> : <Spinner/>
 };
 
 export default LeaveManagement;

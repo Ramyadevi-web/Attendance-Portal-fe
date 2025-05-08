@@ -1,4 +1,4 @@
-import React,{useRef} from 'react'
+import React,{useState} from 'react'
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
@@ -8,12 +8,12 @@ import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import AxiosService from '../utils/AxiosService'
 import ApiRoutes from '../utils/ApiRoutes';
-
-
+import Error from './Error';
 
 function AddUser() {
 
   const navigate = useNavigate()
+  const [error,setError] = useState(null)
 
 
   const handleAddUser = async (event)=>{
@@ -30,13 +30,14 @@ function AddUser() {
            toast.success('User signed up successfully')
            navigate('/manage-user')
          } catch (error) {
-          console.log(error)
-            toast.error(error.response.data.message || error.response.data.error)
+            setError(error.response.data.message || error.response.data.error)
          }
   }
 
   return (
-    <Container>
+    error ?  
+    <Error message={error} />
+     :  <Container>
     <h1 className='d-flex justify-content-center my-5 fw-5'>Add New User</h1>
   <div className="d-flex justify-content-center align-items-center vh-90">
   <Card style={{ width: '30rem' }} className="p-5 shadow">
@@ -102,7 +103,7 @@ function AddUser() {
     </Form>
   </Card>
   </div>
-</Container>
+</Container> 
   )
 }
 

@@ -5,11 +5,13 @@ import ApiRoutes from '../utils/ApiRoutes';
 import TopBar from './TopBar';
 import { MdModeEditOutline } from "react-icons/md";
 import toast from 'react-hot-toast';
+import Error from './Error';
 
 const viewAttendance = () =>{
 
     const [viewAttendance,setViewAttendance ] = useState([])
     const  [selectedValue,setSelectedValue] = useState({})
+      const [error,setError] = useState(null)
     
     const date = localStorage.getItem('attendanceDate')
 
@@ -19,27 +21,33 @@ const viewAttendance = () =>{
 
       const selectValues = {}
 
+      try {
         if (!date) {
-            alert("Please select a date to view attendance.");
-            return;
-          }
+          alert("Please select a date to view attendance.");
+          return;
+        }
 
-          const res = await AxiosService.get(`${ApiRoutes.VIEWATTENDANCE.path.replace(':date',date)}`)
-          const attendance = res.data.filteredData.map((item)=>({
-            ...item,
-            editableFlag :false   
-          }))
+        const res = await AxiosService.get(`${ApiRoutes.VIEWATTENDANCE.path.replace(':date',date)}`)
+        const attendance = res.data.filteredData.map((item)=>({
+          ...item,
+          editableFlag :false   
+        }))
+  
+      const datas = res.data.filteredData
+      
+      for(let data of datas){
+        selectValues[data.id] = data.status
+        }
+
+              
+        setViewAttendance(attendance)
+
+        setSelectedValue(selectValues)
     
-    const datas = res.data.filteredData
-    
-    for(let data of datas){
-      selectValues[data.id] = data.status
-    }
+      } catch (error) {
+        setError( error.response.data.message || error.message) 
+      }
 
-           
-    setViewAttendance(attendance)
-
-    setSelectedValue(selectValues)
       
     }
 
@@ -98,7 +106,9 @@ const viewAttendance = () =>{
       
     
 
-    return <>
+    return  error ?  
+    <Error message={error} />
+     :  viewAttendance ? <>
     <TopBar/>
         <Container className="mt-4">
           <h3 className="mb-4">View Report - {date}</h3>
@@ -138,7 +148,7 @@ const viewAttendance = () =>{
             </tbody>
           </Table>
         </Container>
-        </>
+        </> : <Spinner/> 
 }
 
 export default viewAttendance
